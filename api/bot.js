@@ -60,7 +60,7 @@ Do good work with good people so they can grow exponentially.
 ## Company Structure
 
 ### Founder's Office
-- Ridhi
+- Ridhi (She is the founder)
 
 ### Brand Team (Social Media)
 - **Head:** Shrikant

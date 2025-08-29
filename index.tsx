@@ -10,12 +10,12 @@ interface ChatMessage {
 // Data for the interactive accordion menu
 const suggestionsData = {
   "Company Values": [
-    "Create Value", "Put Client First", "Maintain High Standards", "Be Ethical", 
+    "All Values","Create Value", "Put Client First", "Maintain High Standards", "Be Ethical", 
     "Think Long Term", "Take Ownership", "Solve, Not Crib", "Embrace Change", 
     "People Centric", "Think Strategic, Execute Flawlessly"
   ],
   "Leadership at 91Ninjas": [
-    "Who is a leader?", "Get out of the employee mindset", "Work / Job Clarity",
+    "Who is a leader?", "All Leadership Principles", "Get out of the employee mindset", "Work / Job Clarity",
     "Mentor and Delegate", "Pressure Handling", "Capability Building",
     "Ability to have hard conversations", "Know your team's strengths",
     "Get things done", "No ego", "No insecurities", "Emotional Control",
@@ -33,7 +33,8 @@ const App = () => {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [expandedCategory, setExpandedCategory] = useState<string | null>(null); // State for the accordion
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  const [isMenuVisible, setIsMenuVisible] = useState(true); // <-- New state for menu visibility
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -48,7 +49,8 @@ const App = () => {
     const updatedMessages = [...messages, userMessage];
     setMessages(updatedMessages);
     setIsLoading(true);
-    setExpandedCategory(null); // Close accordion after sending a message
+    setExpandedCategory(null);
+    setIsMenuVisible(false); // <-- Auto-minimize the menu
 
     try {
       const response = await fetch('/api/bot', {
@@ -103,27 +105,35 @@ const App = () => {
         <div ref={messagesEndRef} />
       </div>
       
-      {/* --- ACCORDION MENU SECTION --- */}
-      <div className="accordion-container">
-        {Object.keys(suggestionsData).map((category) => (
-          <div key={category} className="accordion-item">
-            <button className="category-button" onClick={() => handleCategoryClick(category)}>
-              {category}
-              <span className={`arrow ${expandedCategory === category ? 'expanded' : ''}`}>▼</span>
-            </button>
-            {expandedCategory === category && (
-              <div className="sub-options">
-                {suggestionsData[category as keyof typeof suggestionsData].map((option) => (
-                  <button key={option} className="sub-option-button" onClick={() => sendMessage(option)}>
-                    {option}
-                  </button>
-                ))}
+      <div className="accordion-wrapper">
+        <div className="accordion-header">
+          <span>Topics</span>
+          <button onClick={() => setIsMenuVisible(!isMenuVisible)} className="toggle-button">
+            {isMenuVisible ? 'Hide' : 'Show'}
+          </button>
+        </div>
+        {isMenuVisible && (
+            <div className="accordion-container">
+            {Object.keys(suggestionsData).map((category) => (
+              <div key={category} className="accordion-item">
+                <button className="category-button" onClick={() => handleCategoryClick(category)}>
+                  {category}
+                  <span className={`arrow ${expandedCategory === category ? 'expanded' : ''}`}>▼</span>
+                </button>
+                {expandedCategory === category && (
+                  <div className="sub-options">
+                    {suggestionsData[category as keyof typeof suggestionsData].map((option) => (
+                      <button key={option} className="sub-option-button" onClick={() => sendMessage(option)}>
+                        {option}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
-            )}
+            ))}
           </div>
-        ))}
+        )}
       </div>
-      {/* --- END ACCORDION MENU SECTION --- */}
 
       <form onSubmit={handleSubmit} className="input-area">
         <input
