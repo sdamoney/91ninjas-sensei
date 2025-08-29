@@ -74,5 +74,4 @@ Do good work with good people so they can grow exponentially.
 - Punit: Strategy focus, Foyr Lead. Mentors Uzma.
 - Anfaal: Inito brand Lead, focuses on automation and AI. Mentors Uzer.
 - Anjali: WizCommerce Lead.
-- Pappu: FCC Lead.
--
+- Pappu: FCC Lead.`
