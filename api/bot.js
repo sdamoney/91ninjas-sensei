@@ -109,14 +109,33 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 app.post('/api/bot', async (req, res) => {
     try {
-        const { prompt } = req.body;
+        // We now expect the entire chat history
+        const { history } = req.body;
+
+        if (!history || history.length === 0) {
+            return res.status(400).json({ error: 'History is required.' });
+        }
 
         const model = genAI.getGenerativeModel({
             model: "gemini-1.5-flash",
             systemInstruction: SYSTEM_INSTRUCTION,
         });
-        
-        const result = await model.generateContent(prompt);
+
+        // Reformat the history for the AI model
+        const reformattedHistory = history.slice(0, -1).map(msg => ({
+            role: msg.author === 'user' ? 'user' : 'model',
+            parts: [{ text: msg.content }],
+        }));
+
+        const userPrompt = history[history.length - 1].content;
+
+        // Start a chat session with the existing history
+        const chat = model.startChat({
+            history: reformattedHistory,
+        });
+
+        // Send the newest message
+        const result = await chat.sendMessage(userPrompt);
         const response = await result.response;
         const text = response.text();
 
