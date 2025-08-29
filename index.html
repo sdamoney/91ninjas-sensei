@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sensei: The 91Ninjas Guide</title>
+    <link rel="stylesheet" href="index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  <script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.16.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <main class="chat-app">
+      <header class="chat-header">
+        <svg
+          class="logo"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path d="M12 0l-3 9-9 3 9 3 3 9 3-9 9-3-9-3z" />
+        </svg>
+        <div class="header-text">
+          <h1>Meet Sensei</h1>
+          <p>Your Guide to the 91Ninjas Clan</p>
+        </div>
+      </header>
+      <div id="chat-container" class="chat-container" aria-live="polite">
+        <!-- Chat messages will be dynamically inserted here -->
+      </div>
+      <div class="suggestions-container">
+        <p>Try asking:</p>
+        <div id="suggestions" class="suggestions">
+          <!-- Suggestion buttons will be dynamically inserted here -->
+        </div>
+      </div>
+      <form id="chat-form" class="chat-form">
+        <input
+          type="text"
+          id="chat-input"
+          placeholder="Ask a question..."
+          aria-label="Ask the bot a question"
+          autocomplete="off"
+          required
+        />
+        <button type="submit" aria-label="Send message">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <path
+              d="M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 28.12 28.12 0 0 0 15.247-8.684.75.75 0 0 0 0-1.154A28.121 28.121 0 0 0 3.478 2.404Z"
+            />
+          </svg>
+        </button>
+      </form>
+    </main>
+    <script type="module" src="index.tsx"></script>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
