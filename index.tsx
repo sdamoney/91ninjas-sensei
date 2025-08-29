@@ -42,30 +42,24 @@ const App = () => {
 
   useEffect(scrollToBottom, [messages]);
 
- const sendMessage = async (messageText: string) => {
+  const sendMessage = async (messageText: string) => {
     if (!messageText.trim() || isLoading) return;
-
     const userMessage: ChatMessage = { author: 'user', content: messageText };
-    // Create the new history array *before* the API call
     const updatedMessages = [...messages, userMessage];
     setMessages(updatedMessages);
     setIsLoading(true);
-    setExpandedCategory(null);
+    setExpandedCategory(null); // Close accordion after sending a message
 
     try {
-      // Send the ENTIRE updated history to the API
       const response = await fetch('/api/bot', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ history: updatedMessages }), // <-- This is the key change
+        body: JSON.stringify({ history: updatedMessages }),
       });
-
       if (!response.ok) throw new Error('Network response was not ok');
-      
       const data = await response.json();
       const botMessage: ChatMessage = { author: 'bot', content: data.reply };
       setMessages((prevMessages) => [...prevMessages, botMessage]);
-
     } catch (error) {
       console.error('Failed to fetch bot response:', error);
       const errorMessage: ChatMessage = { author: 'bot', content: 'Sorry, I ran into an error.' };
