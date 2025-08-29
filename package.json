@@ -11,12 +11,12 @@
   "dependencies": {
     "@google/genai": "^1.16.0",
     "@google/generative-ai": "^0.24.1",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "react": "^19.1.12",
+    "react-dom": "^19.1.9"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
-    "@types/react": "^19.1.12",
-    "@types/react-dom": "^19.1.9",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
   }
