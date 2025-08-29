@@ -1,5 +1,5 @@
-// api/bot.js
-import { GoogleGenAI, Chat } from "@google/genai";
+import express from 'express';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const SYSTEM_INSTRUCTION = `You are "Sensei", the official culture guide for the company 91Ninjas. Your purpose is to help employees, especially new hires, understand the company's culture, values, mission, vision, leadership principles, and structure. 
 
@@ -75,10 +75,7 @@ Do good work with good people so they can grow exponentially.
 - Punit: Strategy focus, Foyr Lead. Mentors Uzma.
 - Anfaal: Inito brand Lead, focuses on automation and AI. Mentors Uzer.
 - Anjali: WizCommerce Lead.
-- Pappu: FCC Lead.`
-
-const express = require('express');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+- Pappu: FCC Lead.`;
 
 const app = express();
 app.use(express.json());
@@ -89,18 +86,14 @@ app.post('/api/bot', async (req, res) => {
     try {
         const { prompt } = req.body;
 
-        // ==========================================================
-        // --- PASTE YOUR GOOGLE AI STUDIO CODE LOGIC HERE ---
-        //
         const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
-  systemInstruction: SYSTEM_INSTRUCTION, // <-- Add this line
-});
+            model: "gemini-1.5-flash",
+            systemInstruction: SYSTEM_INSTRUCTION,
+        });
+        
         const result = await model.generateContent(prompt);
         const response = await result.response;
         const text = response.text();
-        //
-        // ==========================================================
 
         res.status(200).json({ reply: text });
 
@@ -110,4 +103,4 @@ app.post('/api/bot', async (req, res) => {
     }
 });
 
-module.exports = app;
+export default app;
