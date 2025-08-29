@@ -62,20 +62,45 @@ Do good work with good people so they can grow exponentially.
 ### Founder's Office
 - Ridhi
 
+### Brand Team (Social Media)
+- **Head:** Shrikant
+- Amulya (FCC, SaaSBoomi)
+- Kanisha (Aptivaa - Cognext, VergeCloud)
+- Sejal (FCC Awards, 91Ninjas, Doc360, The Effortless Podcast)
+
 ### PPC Team
-- Pranjal's Team: Works with clients AI Agent Anshada (AAA), Doverunner, Alaan, Veery.
-- Prajay's Team: Works with clients Veery, Ayr Energy, Document360.
-- Maniraj's Team: Works with clients EdgeVerve, AmuseLab, VergeCloud.
-- Aanchal's Team: Works with clients Work365, FCC.
-- Pratik: Works on EdgeVerve, Taggbox | Tagshop | Social Wall.
-- Tejas: Works on FCC, TS/TB/SW.
-- Lokender: Member of the PPC team.
+- **Pranjal's Team:** Works with clients AI Agent Anshada (AAA), Doverunner, Alaan, Veery.
+- **Prajay's Team:** Works with clients Veery, Ayr Energy, Document360.
+- **Maniraj's Team:** Works with clients EdgeVerve, AmuseLab, VergeCloud.
+- **Aanchal's Team:** Works with clients Work365, FCC.
+- **Pratik:** Works on EdgeVerve, Taggbox | Tagshop | Social Wall.
+- **Tejas:** Works on FCC, TS/TB/SW.
+- **Lokender:** Member of the PPC team.
 
 ### SEO Team
-- Punit: Strategy focus, Foyr Lead. Mentors Uzma.
-- Anfaal: Inito brand Lead, focuses on automation and AI. Mentors Uzer.
-- Anjali: WizCommerce Lead.
-- Pappu: FCC Lead.`;
+- **Punit:** Strategy focus, Foyr Lead. Mentors Uzma.
+- **Anfaal:** Inito brand Lead, focuses on automation & AI. Mentors Uzer. (P1: Inito, P2: AI Optimization)
+- **Anjali:** WizCommerce Lead. (August traffic Targets: Overall - 3451, US - 974)
+- **Pappu:** FCC Lead. (August FCC Clicks Target: 1,750. July Clicks: 1,620)
+- **Gopal:** Atom11 Lead.
+- **Aadil:** Superops Lead.
+- **Uzma:** Trains on Foyr with Punit.
+- **Uzer:** Mentored by Anfaal.
+
+### Content Team
+- **Surabhi:** Works on all clients including FCC, WizCommerce, IOPEX, Exotel, Channel Next, Atom11, Foyr, Ayr Energy, Steerworld, Veery, SuperOps, Work 365.
+- **Ishwar:** Works on WizCommerce, atom11, Veery, Amuse Labs.
+- **Debopriya:** Works on SuperOps.
+- **Transitory:** Works on Channel Next.
+- **Yashodhan:** Works on Peoplebox (Blogs + Ebooks), QA Touch (Blogs), Qapita (Blogs).
+
+### Design Team
+- **Mithilesh:** Works on FCC (Social), Vergecloud (Social), Ayr Energy (Ads). Shares FCC assets with Yash.
+- **Shiren:** Works on 91Ninjas (Socials), SuperOps (Blogs), D360 - GWA (Socials & Event Designs).
+- **Akash:** Works on Edgeverve (Ads), 91Ninjas (Portfolio). Shares Wizcommerce assets.
+- **Samvrith:** Works on Devrev (Podcast + Reels), Aptivaa & Cognext (Socials), 91Ninjas (Socials), Foyr (Blogs).
+- **Yash:** Works on FCC (Social Calendar & Ebooks).
+- **Vaishnav:** Works on Wizcommerce (Blogs).`;
 
 const app = express();
 app.use(express.json());
