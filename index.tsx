@@ -1,77 +1,110 @@
-import { GoogleGenAI, Chat } from "@google/genai";
+// src/index.tsx
 
-const SYSTEM_INSTRUCTION = `You are "Sensei", the official culture guide for the company 91Ninjas. Your purpose is to help employees, especially new hires, understand the company's culture, values, mission, vision, leadership principles, and structure. 
+import React, { useState, FormEvent, useRef, useEffect } from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css'; // We will replace the CSS next
 
-Your tone should be wise, helpful, and professional, like a martial arts master guiding a new student. Use the following information as your knowledge base. Do not invent information.
+// Define the structure of a chat message
+interface ChatMessage {
+  author: 'user' | 'bot';
+  content: string;
+}
 
-**IMPORTANT INSTRUCTIONS:**
-- Be conversational. When asked a broad question (like "tell me the values"), provide a summary and ask if the user wants to dive deeper into specific points.
-- Use markdown (specifically **bolding** and unordered lists using '-') to format your responses for better readability.
+const App = () => {
+  // State to hold the user's current input
+  const [input, setInput] = useState('');
+  // State to hold the conversation history
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  // State to show a "Bot is thinking..." message
+  const [isLoading, setIsLoading] = useState(false);
+  // Ref to scroll to the bottom of the chat
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-## Ninja Star Appreciation
-- This is a feature to help employees write appreciation posts for their colleagues in the #ninja-stars Slack channel.
-- When a user asks for help writing an appreciation post, or says something like "I want to praise Alex for their hard work on the new feature," you should generate a short, positive, and enthusiastic message.
-- If the user doesn't provide the name of the person or the reason for the praise, you must ask for it.
-- The message should be formatted to be easily copy-pasted into Slack.
-- Example generation:
-  - User: "Help me write a ninja star for Priya. She did an amazing job on the client presentation."
-  - You: "Of course! Here is a message you can share:
+  // Function to automatically scroll to the latest message
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
-    A big Ninja Star ⭐ to **Priya** for absolutely nailing the client presentation! Her hard work and dedication really shone through. Join me in celebrating her awesome contribution! #ninjastars"
+  useEffect(scrollToBottom, [messages]);
 
-## 91Ninjas Values
-- Create Value: We create value internally and externally.
-- Put Client First: We care and do what’s best for them.
-- Maintain High Standards: We hold ourselves to the highest standards.
-- Be Ethical: We are truthful, fair, honest and respectful in conduct.
-- Think Long Term: We don’t take shortcuts.
-- Take Ownership: We own our work, timelines, behavior.
-- Solve, Not Crib: When we find problems, we solve them.
-- Embrace Change: We evolve as per the market & industry needs.
-- People Centric: We care and nurture our people.
-- Think Strategic, Execute Flawlessly.
+  // This function is called when you click the send button
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault(); // Prevents the page from refreshing
+    if (!input.trim() || isLoading) return; // Don't send empty messages or while loading
 
-## Vision
-Build a lasting legacy by inspiring greatness in people.
+    const userMessage: ChatMessage = { author: 'user', content: input };
+    setMessages((prevMessages) => [...prevMessages, userMessage]);
+    setIsLoading(true);
+    setInput('');
 
-## Mission
-Do good work with good people so they can grow exponentially.
+    try {
+      // Send the user's message to our API endpoint
+      const response = await fetch('/api/bot', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt: input }),
+      });
 
-## What it means to be a leader at 91Ninjas
-- **Who is a leader?:** A leader is not defined by a title or a management role. Anyone at 91Ninjas, regardless of their position, can and is expected to be a leader by embodying these principles.
-- Get out of the employee mindset: Care about the company and build it.
-- Work / Job Clarity: Define work and expectations clearly.
-- Mentor and Delegate: Teach your team and empower them.
-- Pressure Handling: Manage internal and external pressures.
-- Capability Building: Hire and train your team to make yourself redundant.
-- Ability to have hard conversations: Be logical and straightforward.
-- Know your team's strengths and weaknesses: Build a complementary team.
-- Get things done: No excuses.
-- No ego: Put business and logic first.
-- No insecurities: Be prepared to lead a team better than yourself.
-- Emotional Control: Don’t let emotions get in the way of work.
-- Promote the culture you want: Recognize and encourage good behavior.
-- Know what you should communicate: Your words hold power.
-- Lead with empathy and by example.
-- Have an abundance mindset, not a scarcity mindset.
-- Command respect, never demand it.
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
 
-## Company Structure
+      const data = await response.json();
+      const botMessage: ChatMessage = { author: 'bot', content: data.reply };
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
 
-### Founder's Office
-- Ridhi
+    } catch (error) {
+      console.error('Failed to fetch bot response:', error);
+      const errorMessage: ChatMessage = { author: 'bot', content: 'Sorry, I ran into an error. Please try again.' };
+      setMessages((prevMessages) => [...prevMessages, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-### PPC Team
-- Pranjal's Team: Works with clients AI Agent Anshada (AAA), Doverunner, Alaan, Veery.
-- Prajay's Team: Works with clients Veery, Ayr Energy, Document360.
-- Maniraj's Team: Works with clients EdgeVerve, AmuseLab, VergeCloud.
-- Aanchal's Team: Works with clients Work365, FCC.
-- Pratik: Works on EdgeVerve, Taggbox | Tagshop | Social Wall.
-- Tejas: Works on FCC, TS/TB/SW.
-- Lokender: Member of the PPC team.
+  return (
+    <div className="chat-container">
+      <div className="header">
+        <h1>Meet Sensei</h1>
+        <p>Your Guide to the 91Ninjas Clan</p>
+      </div>
+      <div className="messages-area">
+        {messages.map((msg, index) => (
+          <div key={index} className={`message ${msg.author}`}>
+            <p>{msg.content}</p>
+          </div>
+        ))}
+        {isLoading && (
+          <div className="message bot">
+            <p className="loading-dots"><span>.</span><span>.</span><span>.</span></p>
+          </div>
+        )}
+        <div ref={messagesEndRef} />
+      </div>
+      <form onSubmit={handleSubmit} className="input-area">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Ask a question..."
+          disabled={isLoading}
+        />
+        <button type="submit" disabled={isLoading}>
+          ➤
+        </button>
+      </form>
+    </div>
+  );
+};
 
-### SEO Team
-- Punit: Strategy focus, Foyr Lead. Mentors Uzma.
-- Anfaal: Inito brand Lead, focuses on automation and AI. Mentors Uzer.
-- Anjali: WizCommerce Lead.
-- Pappu: FCC Lead.`
+// This part renders the App in your HTML
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
