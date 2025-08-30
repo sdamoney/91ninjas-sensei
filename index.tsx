@@ -50,6 +50,7 @@ const App = () => {
     setMessages(updatedMessages);
     setIsLoading(true);
     setExpandedCategory(null);
+    setInput('');
     setIsMenuVisible(false); // <-- Auto-minimize the menu
 
     try {
@@ -89,7 +90,7 @@ const App = () => {
       <div className="messages-area">
         {messages.length === 0 && (
             <div className="message bot">
-                <p>Welcome! Click a category below to see specific questions, or type your own.</p>
+                <p>Greetings. I am Sensei, your guide to the 91Ninjas Clan. How may I assist you?</p>
             </div>
         )}
         {messages.map((msg, index) => (
